@@ -13,6 +13,6 @@ The TF-Luna can be wired to the Raspberry Pi via the mini UART port:
 
 ### - TF-Luna Ranging Test - 
 
-Example output from the script: 'tfluna_test_plot.py'
+The script entitled 'tfluna_test_plot.py' outputs a plot similar to the following:
 
 ![TF-Luna Ranging Test](./images/tfluna_test_plot_white.png)
