@@ -19,3 +19,10 @@ The TF-Luna can be wired to the Raspberry Pi via the mini UART port:
 The script entitled 'tfluna_test_plot.py' outputs a plot similar to the following:
 
 ![TF-Luna Ranging Test](./images/tfluna_test_plot_white.png)
+
+---
+### - Real-Time Ranging Visualization - 
+
+The script entitled 'tfluna_test_realtime.py' outputs a real-time output of distance and signal strength, similar to the following:
+
+![TF-Luna Real-Time Ranging](https://static1.squarespace.com/static/59b037304c0dbfb092fbe894/t/6009c8eaeb094d45ff2c6aec/1611254014461/TF_Luna_w_raspberrypi4.JPG?format=2500w)
