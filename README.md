@@ -5,4 +5,8 @@ Python codes for configuring and reading the TF-Luna Light Detection And Ranging
 
 The TF-Luna can be wired to the Raspberry Pi via the mini UART port:
 
-![TF-Luna RPi Wiring](link)
+![TF-Luna RPi Wiring]()
+
+### - TF-Luna Ranging Test - 
+
+![TF-Luna Ranging Test](./images/tfluna_test_plot_white.png)
