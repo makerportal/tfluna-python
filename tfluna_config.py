@@ -37,13 +37,8 @@ def set_samp_rate(samp_rate=100):
     # change the sample rate
     samp_rate_packet = [0x5a,0x06,0x03,samp_rate,00,00] # sample rate byte array
     ser.write(samp_rate_packet) # send sample rate instruction
-    while True:
-        counter = ser.in_waiting
-        if counter > samp_rate_packet[1]:
-            bytes_data = ser.read(samp_rate_packet[1])
-            ser.reset_input_buffer()
-            if bytes_data[0] == 0x5a:
-                return bytes_data
+    time.sleep(0.1) # wait for change to take effect
+    return
             
 def get_version():
     ##########################
@@ -114,7 +109,7 @@ def set_baudrate(baud_indx=4):
 ############################
 #
 baudrates = [9600,19200,38400,57600,115200,230400,460800,921600] # baud rates
-prev_indx = 4 # previous baud rate index (TF-Luna baudrate)
+prev_indx = 4 # previous baud rate index (current TF-Luna baudrate)
 prev_ser = serial.Serial("/dev/serial0", baudrates[prev_indx],timeout=0) # mini UART serial device
 if prev_ser.isOpen() == False:
     prev_ser.open() # open serial port if not open
