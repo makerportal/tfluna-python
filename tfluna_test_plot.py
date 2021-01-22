@@ -139,10 +139,10 @@ ser.close() # close serial port
 # Plotting the TF-Luna Output
 ##############################
 #
-plt.style.use('ggplot')
-fig,ax = plt.subplots(figsize=(12,9))
-ax.plot(np.subtract(time_array,time_array[0]),dist_array,linewidth=3.5)
-ax.set_ylabel('Distance [m]',fontsize=16)
+plt.style.use('ggplot') # figure formatting
+fig,ax = plt.subplots(figsize=(12,9)) # figure and axis
+ax.plot(np.subtract(time_array,time_array[0]),dist_array,linewidth=3.5) # plot ranging data
+ax.set_ylabel('Distance [m]',fontsize=16) 
 ax.set_xlabel('Time [s]',fontsize=16)
 ax.set_title('TF-Luna Ranging Test',fontsize=18)
-plt.show()
+plt.show() # show figure
