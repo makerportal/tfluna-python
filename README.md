@@ -5,6 +5,8 @@ Tutorial: https://makersportal.com/blog
 
 Buy a TF-Luna from our Store: https://makersportal.com/shop/tf-luna-lidar-module
 
+---
+
 ### - TF-Luna + Raspberry Pi Wiring - 
 
 The TF-Luna can be wired to the Raspberry Pi via the mini UART port:
