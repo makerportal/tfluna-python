@@ -11,6 +11,7 @@ The TF-Luna can be wired to the Raspberry Pi via the mini UART port:
 
 ![TF-Luna RPi Wiring](https://static1.squarespace.com/static/59b037304c0dbfb092fbe894/t/6009f277b8566661c36dfa67/1611264637375/TF_luna_RPi_wiring.png?format=1500w)
 
+---
 ### - TF-Luna Ranging Test - 
 
 The script entitled 'tfluna_test_plot.py' outputs a plot similar to the following:
