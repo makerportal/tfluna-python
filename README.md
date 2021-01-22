@@ -5,7 +5,7 @@ Tutorial: https://makersportal.com/blog
 
 Buy a TF-Luna from our Store: https://makersportal.com/shop/tf-luna-lidar-module
 
-___
+---
 
 ### - TF-Luna + Raspberry Pi Wiring - 
 
