@@ -2,6 +2,7 @@
 # Copyright (c) 2021 Maker Portal LLC
 # Author: Joshua Hrisko
 # Code refactoring (to classes): Clément Nussbaumer, April 2021
+# Reference manual for the sensor: https://github.com/May-DFRobot/DFRobot/blob/master/TF-Luna%20LiDAR%EF%BC%888m%EF%BC%89Product%20Manual.pdf
 ######################################################
 #
 # TF-Luna Mini LiDAR wired to a Raspberry Pi via UART
@@ -11,6 +12,8 @@
 ######################################################
 #
 import serial,time
+import timeout_decorator
+from .util import raise_if_outside_context
 
 
 class TfLuna():
@@ -18,17 +21,35 @@ class TfLuna():
     baud_config = {
         9600: [0x80,0x25,0x00], # 9600
         19200: [0x00,0x4b,0x00], # 19200
-        115200: [0x00,0x00,0x00]
+        38400: [0x00,0x96,0x00], # 38400
+        57600: [0x00,0xe1,0x00], # 57600
+        115200: [0x00,0xc2,0x01], # 115200
+        230400: [0x00,0x84,0x03], # 230400
+        460800: [0x00,0x08,0x07], # 460800
+        921600: [0x00,0x10,0x0e]  # 921600
     }
 
     def __init__(self, serial_name = "/dev/serial0", baud_speed = 115200):
-        self.ser = serial.Serial(serial_name, baud_speed, timeout = 5) # mini UART serial device
-        self.set_samp_rate(100) # set sample rate 1-250
-        time.sleep(300e-3) # wait 300ms to settle
-        self.get_version() # print version info for TF-Luna
+        if baud_speed not in self.baud_config:
+            raise Exception(f"Invalid baud_speed setting used: {baud_speed}\n"
+            "available baud speeds: 9600,19200,38400,57600,115200,230400,460800,921600")
+        self.serial_name = serial_name
+        self.baud_speed = baud_speed
+        self.inside_context = False # set to False so long as we haven't used the with statement.
 
-
+    def __enter__(self):
+        self.ser = serial.Serial(self.serial_name, self.baud_speed, timeout = 1) # mini UART serial device
+        self.inside_context = True # now that we are in a context, we set this to true and open the serial device 
+        return self
     
+    def __exit__(self, exception_type, exception_value, exception_traceback):
+        self.inside_context = False
+        self.ser.close()
+        print(f"Correctly closed the TfLuna Object and the serial port")
+
+
+    @raise_if_outside_context
+    @timeout_decorator.timeout(5)
     def read_tfluna_data(self):
         while True:
             counter = self.ser.in_waiting # count the number of bytes of the serial port
@@ -44,6 +65,8 @@ class TfLuna():
                     temperature = (temperature/8) - 256 # temp scaling and offset
                     return distance/100.0,strength,temperature
 
+    @raise_if_outside_context
+    @timeout_decorator.timeout(1)
     def set_samp_rate(self, samp_rate=100):
         ##########################
         # change the sample rate
@@ -52,6 +75,8 @@ class TfLuna():
         time.sleep(0.1) # wait for change to take effect
         return
             
+    @raise_if_outside_context
+    @timeout_decorator.timeout(5)
     def get_version(self):
         ##########################
         # get version info
@@ -60,8 +85,7 @@ class TfLuna():
         self.ser.write(info_packet)
         time.sleep(0.1)
         bytes_to_read = 30
-        t0 = time.time()
-        while (time.time()-t0)<5:
+        while True: # timeout handled by the timeout decorator
             counter = self.ser.in_waiting
             if counter > bytes_to_read:
                 bytes_data = self.ser.read(bytes_to_read)
@@ -77,13 +101,13 @@ class TfLuna():
                     self.ser.write(info_packet)
                     time.sleep(0.1)
 
+    @raise_if_outside_context
+    @timeout_decorator.timeout(5)
     def set_baudrate(self, baud_rate=115200):
         ##########################
         # get version info
-        baud_hex = {
-            9600: [0x80,0x25,0x00], # 9600
-            19200: [0x00,0x4b,0x00], # 19200
-        }
+
+        pass
         # baud_hex = [[0x80,0x25,0x00], # 9600
         #             [0x00,0x4b,0x00], # 19200
         #             [0x00,0x96,0x00], # 38400
@@ -121,17 +145,3 @@ class TfLuna():
         #             ser_new.write(info_packet) # try again if wrong data received
         #             time.sleep(0.1) # wait 100ms
         #             continue
-
-
-#
-############################
-# Testing the TF-Luna Output
-############################
-#
-
-tfluna = TfLuna()
-
-distance,strength,temperature = tfluna.read_tfluna_data() # read values
-
-print(f'Distance: {distance:2.2f} m, Strength: {strength:2.0f} / 65535 (16-bit), Chip Temperature: {temperature:2.1f} C') # print sample data
-
