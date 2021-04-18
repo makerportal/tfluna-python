@@ -1,6 +1,7 @@
 ######################################################
 # Copyright (c) 2021 Maker Portal LLC
 # Author: Joshua Hrisko
+# Code refactoring (to classes): Clément Nussbaumer, April 2021
 ######################################################
 #
 # TF-Luna Mini LiDAR wired to a Raspberry Pi via UART
