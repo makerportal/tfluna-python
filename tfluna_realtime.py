@@ -129,7 +129,7 @@ def plotter():
     plt.style.use('ggplot') # plot formatting
     fig,axs = plt.subplots(1,2,figsize=(12,8),
                         gridspec_kw={'width_ratios': [5,1]}) # create figure
-    fig.canvas.set_window_title('TF-Luna Real-Time Ranging')
+    fig.canvas.manager.set_window_title('TF-Luna Real-Time Ranging')
     fig.subplots_adjust(wspace=0.05)
     # ranging axis formatting
     axs[0].set_xlabel('Sample',fontsize=16)
