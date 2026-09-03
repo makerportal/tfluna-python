@@ -1,6 +1,8 @@
 # TF-Luna LiDAR with Raspberry Pi
 Python codes for configuring and reading the TF-Luna Light Detection And Ranging (LiDAR) module interfaced with a Raspberry Pi computer.
 
+**Interactive companion:** [SLAM & Odometry Arena](https://makerportal.ai/lab/slam-odometry-arena) — compare localization sensors and odometry tradeoffs in the browser.
+
 Tutorial: https://makersportal.com/blog/distance-detection-with-the-tf-luna-lidar-and-raspberry-pi
 
 Buy a TF-Luna from our Store: https://makersportal.com/shop/tf-luna-lidar-module
